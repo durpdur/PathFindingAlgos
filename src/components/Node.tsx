@@ -1,5 +1,5 @@
 /*
-  Grid:
+  Node:
     - No States to handle
 */
 
@@ -10,10 +10,17 @@ interface NodeProps {
   i: number;
   j: number;
 
-  onClick?: () => void; //
+  onMouseDown?: () => void;
+  onMouseEnter?: () => void;
 }
 
-const Node: React.FC<NodeProps> = ({ pinkWhite, onClick, i, j }) => {
+const Node: React.FC<NodeProps> = ({
+  pinkWhite,
+  onMouseDown,
+  onMouseEnter,
+  i,
+  j,
+}) => {
   // baseStyles
   const baseStyles = {
     width: "50px",
@@ -34,8 +41,11 @@ const Node: React.FC<NodeProps> = ({ pinkWhite, onClick, i, j }) => {
     <div
       className="node"
       style={dynamicStyles}
-      onClick={onClick}
-    >{`${i}-${j}`}</div>
+      onMouseDown={onMouseDown}
+      onMouseEnter={onMouseEnter}
+    >
+      {/*{`${i}-${j}`}*/}
+    </div>
   );
 };
 

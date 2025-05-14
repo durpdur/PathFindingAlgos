@@ -11,6 +11,8 @@ body, html {
   grid-template-columns: repeat(var(--grid-cols), 50px);
   grid-template-rows: repeat(var(--grid-rows), 50px);
   overflow: none;
+
+  user-select: none;
 }
 
 .node {

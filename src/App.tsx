@@ -1,7 +1,10 @@
 /* 
 App:
-  - Viewport Sizing: (gridRow, gridCol) renders once
-  - Toolbar: Selection Mode ("click" | "click-and-drag")
+- gridState
+  - resetGrid
+  - visualizeAlgorithm
+
+- currentAlgorithm
 */
 
 import { useState, useEffect } from "react";
@@ -36,6 +39,7 @@ function App() {
     );
   };
 
+  // useEffect
   // CSS Styling w/ useEffect
   useEffect(() => {
     document.documentElement.style.setProperty(
@@ -52,12 +56,13 @@ function App() {
   return (
     <div>
       <button onClick={toggleSelectionType}>
-        Switch to {selectionType === "click" ? "Click and Drag" : "Click"}{" "}
+        Currently: "{selectionType === "click" ? "Click" : "Click and Drag"}{" "}"
         Selection
       </button>
       <Grid
         boxStates={boxStates}
         togglesStates={toggleBoxStates}
+        selectionType={selectionType}
       />
     </div>
   );
