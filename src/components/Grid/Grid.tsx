@@ -1,3 +1,9 @@
+/* 
+Grid:
+Args
+- boxStates
+*/
+
 import React from "react";
 
 import Node from "../Node";
@@ -5,17 +11,11 @@ import Node from "../Node";
 // Props
 interface GridProps {
   boxStates: boolean[][];
-  selectionType: "click" | "click-and-drag";
-
   togglesStates: (i: number, j: number) => void;
 }
 
 // return
-const Grid: React.FC<GridProps> = ({
-  boxStates,
-  togglesStates,
-  // selectionType
-}) => {
+const Grid: React.FC<GridProps> = ({ boxStates, togglesStates }) => {
   return (
     <div className="grid">
       {boxStates.map((row, i) =>

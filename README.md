@@ -1,7 +1,45 @@
+# App Structure
+
+## App.tsx
+
+**States**
+- gridState
+  - resetGrid
+  - visualizeAlgorithm
+
+- currentAlgorithm
+
+### Toolbar
+- Algorithm Selector
+- Maze Generator
+- Wall Placer
+- Reset Grid
+- Reset Obstacles
+- Start
+- End
+- Speed Adjustment
+- Timeline
+  - e.g. showing steps from __ to __
+
+### Grid
+Argument
+- boxStates
+- togglesStates
+
+#### Node
+- Filled
+  - Wall
+  - Start
+  - End
+  - Path
+  - Weighted
+
+---
+
 # git checkout --orphan gh-pages
 Created a orphan branch with no commit history for prod
 
-### To update prod
+## To update prod
 - npm run build
 - npm run deploy
   - npm runs <script>

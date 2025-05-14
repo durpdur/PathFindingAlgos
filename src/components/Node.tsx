@@ -1,3 +1,8 @@
+/*
+  Grid:
+    - No States to handle
+*/
+
 import React from "react";
 
 interface NodeProps {

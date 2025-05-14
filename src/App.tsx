@@ -1,3 +1,9 @@
+/* 
+App:
+  - Viewport Sizing: (gridRow, gridCol) renders once
+  - Toolbar: Selection Mode ("click" | "click-and-drag")
+*/
+
 import { useState, useEffect } from "react";
 import "./App.css";
 
@@ -30,7 +36,7 @@ function App() {
     );
   };
 
-  // useEffect
+  // CSS Styling w/ useEffect
   useEffect(() => {
     document.documentElement.style.setProperty(
       "--grid-cols",
@@ -52,7 +58,6 @@ function App() {
       <Grid
         boxStates={boxStates}
         togglesStates={toggleBoxStates}
-        selectionType={selectionType}
       />
     </div>
   );
