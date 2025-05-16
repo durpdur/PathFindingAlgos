@@ -10,32 +10,33 @@ import Node from "../Node";
 
 // Props
 interface GridProps {
-  boxStates: boolean[][];
-  togglesStates: (i: number, j: number) => void;
+  boxStates: number[][];
+  togglesStates: (i: number, j: number, itemSelected: number) => void;
   selectionType: "click" | "click-and-drag";
+  itemSelected: number;
 }
 
-// return
 const Grid: React.FC<GridProps> = ({
   boxStates,
   togglesStates,
   selectionType,
+  itemSelected
 }) => {
   // useState
   const [isDragging, setIsDragging] = useState(false);
 
   // mouse listeners
-  const handleMouseDown = (i: number, j: number) => {
-    togglesStates(i, j); // click
+  const handleMouseDown = (i: number, j: number, itemSelected: number) => {
+    togglesStates(i, j, itemSelected); // click
     if (selectionType === "click-and-drag") {
       setIsDragging(true); // update to dragging
     }
   };
 
-  const handleMouseEnter = (i: number, j: number) => {
+  const handleMouseEnter = (i: number, j: number, itemSelected: number) => {
     // toggle boxes entered while dragging
     if (isDragging && selectionType === "click-and-drag") {
-      togglesStates(i, j);
+      togglesStates(i, j, itemSelected);
     }
   };
 
@@ -46,8 +47,8 @@ const Grid: React.FC<GridProps> = ({
   // useEffect
   // Ends dragging when mouse is released even outside of screen
   useEffect(() => {
-    // window lister for if mouse comes up
-    window.addEventListener("mouseup", handleMouseUp); 
+    window.addEventListener("mouseup", handleMouseUp);
+    
     // Cleanup for when Grid.tsx unmounts (currently never happens)
     return () => window.removeEventListener("mouseup", handleMouseUp);
   }, []);
@@ -58,11 +59,9 @@ const Grid: React.FC<GridProps> = ({
         row.map((state, j) => (
           <Node
             key={`${i}-${j}`}
-            pinkWhite={state}
-            onMouseDown={() => handleMouseDown(i, j)}
-            onMouseEnter={() => handleMouseEnter(i, j)}
-            i={i}
-            j={j}
+            NodeItem={state}
+            onMouseDown={() => handleMouseDown(i, j, itemSelected)}
+            onMouseEnter={() => handleMouseEnter(i, j, itemSelected)}
           />
         ))
       )}

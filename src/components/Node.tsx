@@ -1,40 +1,50 @@
 /*
   Node:
-    - No States to handle
+  - No States to handle
+
+  - 
 */
 
 import React from "react";
 
 interface NodeProps {
-  pinkWhite: boolean; // property for use later
-  i: number;
-  j: number;
+  NodeItem: number;
 
   onMouseDown?: () => void;
   onMouseEnter?: () => void;
 }
 
-const Node: React.FC<NodeProps> = ({
-  pinkWhite,
-  onMouseDown,
-  onMouseEnter,
-  i,
-  j,
-}) => {
+const getColor = (itemPlaced : number): string => {
+  switch (itemPlaced)
+  {
+    case 0:
+      return "white"; // Empty
+    case 1:
+      return "black"; // Wall
+    case 2:
+      return "green"; // start
+    case 3:
+      return "red"; // end
+    default:
+      return "grey";
+  }
+};
+
+const Node: React.FC<NodeProps> = ({ NodeItem, onMouseDown, onMouseEnter }) => {
   // baseStyles
   const baseStyles = {
-    width: "50px",
-    height: "50px",
+    width: "49px",
+    height: "49px",
     backgroundColor: "pink",
     border: "1px solid black",
-    borderRadius: "5px",
+    borderRadius: "2px",
     color: "black",
   };
 
   // dynamic (add or modify)
   const dynamicStyles = {
     ...baseStyles, // copies base styles
-    backgroundColor: pinkWhite ? "pink" : "white", // using pinkWhite prop
+    backgroundColor: getColor(NodeItem), // using NodeItem prop
   };
 
   return (
@@ -44,7 +54,7 @@ const Node: React.FC<NodeProps> = ({
       onMouseDown={onMouseDown}
       onMouseEnter={onMouseEnter}
     >
-      {/*{`${i}-${j}`}*/}
+      {NodeItem}
     </div>
   );
 };

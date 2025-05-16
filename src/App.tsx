@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 import Grid from "./components/Grid/Grid";
+import Toolbar from "./components/Toolbar/Toolbar";
 
 function App() {
   // CONSTANTS
@@ -18,18 +19,27 @@ function App() {
   const gridCol = Math.floor(innerWidth / 50) - 2;
 
   // STATES
-  const [boxStates, setBoxStates] = useState<boolean[][]>(
-    Array.from({ length: gridRow }, () => Array(gridCol).fill(true))
+  const [boxStates, setBoxStates] = useState<number[][]>(
+    Array.from({ length: gridRow }, () => Array(gridCol).fill(0))
   );
 
   const [selectionType, setSelectionType] = useState<
     "click" | "click-and-drag"
   >("click");
 
+  const [itemPlacement, setItemPlacement] = useState<number>(1);
+
   // FUNCTIONS
-  const toggleBoxStates = (i: number, j: number) => {
+  // can only place something down when 0
+  const toggleBoxStates = (i: number, j: number, itemSelected: number) => {
     const newStates = boxStates.map((row) => [...row]);
-    newStates[i][j] = !newStates[i][j];
+    if (newStates[i][j]) {
+      if (newStates[i][j] == itemSelected) {
+        newStates[i][j] = 0;
+      }
+    } else {
+      newStates[i][j] = itemSelected;
+    }
     setBoxStates(newStates);
   };
 
@@ -37,6 +47,12 @@ function App() {
     setSelectionType((prevType) =>
       prevType === "click" ? "click-and-drag" : "click"
     );
+  };
+
+  const handleItemSelect = (itemSelected: number) => {
+    setItemPlacement(itemSelected);
+
+    console.log("Item Selected", itemSelected);
   };
 
   // useEffect
@@ -56,13 +72,18 @@ function App() {
   return (
     <div>
       <button onClick={toggleSelectionType}>
-        Currently: "{selectionType === "click" ? "Click" : "Click and Drag"}{" "}"
+        Currently: "{selectionType === "click" ? "Click" : "Click and Drag"} "
         Selection
       </button>
       <Grid
         boxStates={boxStates}
         togglesStates={toggleBoxStates}
         selectionType={selectionType}
+        itemSelected={itemPlacement}
+      />
+      <Toolbar
+        itemPlacement={itemPlacement}
+        setItemPlacement={handleItemSelect}
       />
     </div>
   );
