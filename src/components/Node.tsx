@@ -50,6 +50,7 @@ const Node: React.FC<NodeProps> = ({ coord, NodeItem, onMouseDown, onMouseEnter 
 
   return (
     <div
+      key={coord} // temp key to stop error message 
       className="node"
       style={dynamicStyles}
       onMouseDown={onMouseDown}
