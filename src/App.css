@@ -6,20 +6,6 @@ body, html {
   align-items: center;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(var(--grid-cols), 50px);
-  grid-template-rows: repeat(var(--grid-rows), 50px);
-  overflow: none;
-
-  user-select: none;
-}
-
 .node {
   cursor: pointer;
-}
-
-button {
-  color: blueviolet;
-  background-color: whitesmoke;
 }

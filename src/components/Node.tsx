@@ -8,13 +8,14 @@
 import React from "react";
 
 interface NodeProps {
+  coord?: string;
   NodeItem: number;
 
   onMouseDown?: () => void;
   onMouseEnter?: () => void;
 }
 
-const getColor = (itemPlaced : number): string => {
+const getBackgroundColor = (itemPlaced : number): string => {
   switch (itemPlaced)
   {
     case 0:
@@ -30,13 +31,13 @@ const getColor = (itemPlaced : number): string => {
   }
 };
 
-const Node: React.FC<NodeProps> = ({ NodeItem, onMouseDown, onMouseEnter }) => {
+const Node: React.FC<NodeProps> = ({ coord, NodeItem, onMouseDown, onMouseEnter }) => {
   // baseStyles
   const baseStyles = {
     width: "49px",
     height: "49px",
     backgroundColor: "pink",
-    border: "1px solid black",
+    border: "1px solid grey",
     borderRadius: "2px",
     color: "black",
   };
@@ -44,7 +45,7 @@ const Node: React.FC<NodeProps> = ({ NodeItem, onMouseDown, onMouseEnter }) => {
   // dynamic (add or modify)
   const dynamicStyles = {
     ...baseStyles, // copies base styles
-    backgroundColor: getColor(NodeItem), // using NodeItem prop
+    backgroundColor: getBackgroundColor(NodeItem), // using NodeItem prop
   };
 
   return (
@@ -54,7 +55,7 @@ const Node: React.FC<NodeProps> = ({ NodeItem, onMouseDown, onMouseEnter }) => {
       onMouseDown={onMouseDown}
       onMouseEnter={onMouseEnter}
     >
-      {NodeItem}
+      {/* {coord} */}
     </div>
   );
 };

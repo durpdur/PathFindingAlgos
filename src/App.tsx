@@ -10,49 +10,95 @@ App:
 import { useState, useEffect } from "react";
 import "./App.css";
 
-import Grid from "./components/Grid/Grid";
-import Toolbar from "./components/Toolbar/Toolbar";
+import Grid from "./components/Grid";
+import Toolbar from "./components/Toolbar";
 
 function App() {
   // CONSTANTS
-  const gridRow = Math.floor(innerHeight / 50) - 3;
-  const gridCol = Math.floor(innerWidth / 50) - 2;
+  const nodeSize = 50;
+  const gridRow = Math.floor(innerHeight / nodeSize) - 3;
+  const gridCol = Math.floor(innerWidth / nodeSize) - 2;
 
   // STATES
-  const [boxStates, setBoxStates] = useState<number[][]>(
-    Array.from({ length: gridRow }, () => Array(gridCol).fill(0))
-  );
+  // The item currently selected to be placed in the grid
+  const [currentItemSelected, setCurrentItemSelected] = useState<number>(1);
 
-  const [selectionType, setSelectionType] = useState<
-    "click" | "click-and-drag"
-  >("click");
+  // One start position
+  const [startNodeCoord, setStartNodeCoord] = useState<[number, number]>([
+    Math.floor(gridRow / 5),
+    Math.floor(gridCol / 5),
+  ]);
 
-  const [itemPlacement, setItemPlacement] = useState<number>(1);
+  // One end position
+  const [endNodeCoord, setEndNodeCoord] = useState<[number, number]>([
+    Math.floor(gridRow / 5) * 4,
+    Math.floor(gridCol / 5) * 4,
+  ]);
+
+  // Grid State
+  const [boxStates, setBoxStates] = useState<number[][]>(() => {
+    const initialStates = Array.from({ length: gridRow }, () =>
+      Array(gridCol).fill(0)
+    );
+
+    const [initialStartRow, initialStartCol] = startNodeCoord;
+    const [initialEndRow, initialEndCol] = endNodeCoord;
+
+    initialStates[initialStartRow][initialStartCol] = 2;
+    initialStates[initialEndRow][initialEndCol] = 3;
+
+    return initialStates;
+  });
+
+  // Type of selection depending on currentItemSelected
+  const [selectionType, setSelectionType] = useState<boolean>(true); // true: click and drag, false: click
 
   // FUNCTIONS
-  // can only place something down when 0
+  const swapStartNodeCoord = (i: number, j: number, newStates: number[][]) => {
+    const [currI, currJ] = startNodeCoord;
+    newStates[currI][currJ] = 0;
+
+    setStartNodeCoord([i, j]);
+    newStates[i][j] = 2;
+  };
+
+  const swapEndNodeCoord = (i: number, j: number, newStates: number[][]) => {
+    const [currI, currJ] = endNodeCoord;
+    newStates[currI][currJ] = 0;
+
+    setEndNodeCoord([i, j]);
+    newStates[i][j] = 3;
+  };
+
   const toggleBoxStates = (i: number, j: number, itemSelected: number) => {
     const newStates = boxStates.map((row) => [...row]);
-    if (newStates[i][j]) {
-      if (newStates[i][j] == itemSelected) {
-        newStates[i][j] = 0;
-      }
+
+    if (itemSelected == 2) {
+      swapStartNodeCoord(i, j, newStates);
+    } else if (itemSelected == 3) {
+      swapEndNodeCoord(i, j, newStates);
     } else {
-      newStates[i][j] = itemSelected;
+      if (newStates[i][j]) {
+        if (newStates[i][j] == itemSelected) {
+          newStates[i][j] = 0;
+        }
+      } else {
+        newStates[i][j] = itemSelected;
+      }
     }
     setBoxStates(newStates);
   };
 
-  const toggleSelectionType = () => {
-    setSelectionType((prevType) =>
-      prevType === "click" ? "click-and-drag" : "click"
-    );
-  };
-
+  // Set the current item being placed, and what mode of placement it is
   const handleItemSelect = (itemSelected: number) => {
-    setItemPlacement(itemSelected);
+    setCurrentItemSelected(itemSelected);
+    setSelectionType(itemSelected == 1);
 
-    console.log("Item Selected", itemSelected);
+    console.log(
+      selectionType ? "click-and-drag" : "click",
+      ", Item Selected",
+      currentItemSelected
+    );
   };
 
   // useEffect
@@ -71,19 +117,15 @@ function App() {
   // RETURN
   return (
     <div>
-      <button onClick={toggleSelectionType}>
-        Currently: "{selectionType === "click" ? "Click" : "Click and Drag"} "
-        Selection
-      </button>
+      <Toolbar
+        itemPlacement={currentItemSelected}
+        setItemPlacement={handleItemSelect}
+      />
       <Grid
         boxStates={boxStates}
         togglesStates={toggleBoxStates}
         selectionType={selectionType}
-        itemSelected={itemPlacement}
-      />
-      <Toolbar
-        itemPlacement={itemPlacement}
-        setItemPlacement={handleItemSelect}
+        itemSelected={currentItemSelected}
       />
     </div>
   );

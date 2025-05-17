@@ -35,6 +35,22 @@ const Toolbar: React.FC<ToolbarProps> = ({
         const number = i + 1;
         const isSelected = selectedValue === number;
 
+        let toolBarLabel = "";
+        switch (number) {
+          case 1:
+            toolBarLabel = "Wall";
+            break;
+          case 2:
+            toolBarLabel = "Start";
+            break;
+          case 3:
+            toolBarLabel = "End";
+            break;
+          default:
+            toolBarLabel = number.toString();
+            break;
+        }
+
         return (
           <div
             key={number}
@@ -51,7 +67,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
               cursor: "pointer",
               userSelect: "none"
             }}
-          >{number}</div>
+          >{toolBarLabel}</div>
         );
       })}
     </div>
