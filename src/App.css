@@ -9,3 +9,22 @@ body, html {
 .node {
   cursor: pointer;
 }
+
+.toolbar-button {
+  width: 50px;
+  height: 30px;
+  text-align: center;
+  padding: 8p;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+
+  background-color: white;
+  color: pink;
+}
+
+.toolbar-button.selected {
+  background-color: pink;
+  color: purple;
+}

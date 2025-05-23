@@ -17,11 +17,17 @@ import React from "react";
 interface ToolbarProps {
   itemPlacement: number;
   setItemPlacement: (item: number) => void;
+  resetStartEnd: () => void;
+  resetWall: () => void;
+  resetAll: () => void;
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
   itemPlacement,
   setItemPlacement,
+  resetStartEnd,
+  resetWall,
+  resetAll,
 }) => {
   const selectedValue = itemPlacement;
 
@@ -29,47 +35,61 @@ const Toolbar: React.FC<ToolbarProps> = ({
   return (
     <div
       className="Toolbar"
-      style={{ display: "flex", gap: "8px", padding: "8px" }}
+      style={{ display: "", gap: "1px", padding: "8px" }}
     >
-      {Array.from({ length: 10 }, (_, i) => {
-        const number = i + 1;
-        const isSelected = selectedValue === number;
+      <div
+        className="ToolbarItems"
+        style={{ display: "flex", gap: "8px", padding: "8px" }}
+      >
+        {Array.from({ length: 10 }, (_, i) => {
+          const number = i + 1;
+          const isSelected = selectedValue === number;
 
-        let toolBarLabel = "";
-        switch (number) {
-          case 1:
-            toolBarLabel = "Wall";
-            break;
-          case 2:
-            toolBarLabel = "Start";
-            break;
-          case 3:
-            toolBarLabel = "End";
-            break;
-          default:
-            toolBarLabel = number.toString();
-            break;
-        }
+          let toolBarLabel = "";
+          switch (number) {
+            case 1:
+              toolBarLabel = "Wall";
+              break;
+            case 2:
+              toolBarLabel = "Start";
+              break;
+            case 3:
+              toolBarLabel = "End";
+              break;
+            default:
+              toolBarLabel = number.toString();
+              break;
+          }
 
-        return (
-          <div
-            key={number}
-            onClick={() => setItemPlacement(number)}
-            style={{
-              width: "30px",
-              height: "30px",
-              textAlign: "center",
-              padding: "8px",
-              backgroundColor: isSelected? "pink" : "white",
-              color: isSelected ? "purple" : "pink",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-              userSelect: "none"
-            }}
-          >{toolBarLabel}</div>
-        );
-      })}
+          return (
+            <div
+              key={number}
+              onClick={() => setItemPlacement(number)}
+              className={`toolbar-button ${isSelected ? "selected" : ""}`}
+            >
+              {toolBarLabel}
+            </div>
+          );
+        })}
+        <div
+          className="ToolbarResetStartEndButton toolbar-button"
+          onClick={resetStartEnd}
+        >
+          Reset Start and End
+        </div>
+        <div
+          className="ToolBarResetWallButton toolbar-button"
+          onClick={resetWall}
+        >
+          Reset Wall
+        </div>
+        <div
+          className="ToolBarResetAllButton toolbar-button"
+          onClick={resetAll}
+        >
+          Reset All
+        </div>
+      </div>
     </div>
   );
 };

@@ -54,6 +54,8 @@ function App() {
   const [selectionType, setSelectionType] = useState<boolean>(true); // true: click and drag, false: click
 
   // FUNCTIONS
+
+  // Swap Start Coordinates
   const swapStartNodeCoord = (i: number, j: number, newStates: number[][]) => {
     const [currI, currJ] = startNodeCoord;
     newStates[currI][currJ] = 0;
@@ -62,6 +64,7 @@ function App() {
     newStates[i][j] = 2;
   };
 
+  // Swap End Coordinates
   const swapEndNodeCoord = (i: number, j: number, newStates: number[][]) => {
     const [currI, currJ] = endNodeCoord;
     newStates[currI][currJ] = 0;
@@ -70,7 +73,8 @@ function App() {
     newStates[i][j] = 3;
   };
 
-  const toggleBoxStates = (i: number, j: number, itemSelected: number) => {
+  // Handles item placement and associated selection type
+  const handleItemPlacement = (i: number, j: number, itemSelected: number) => {
     const newStates = boxStates.map((row) => [...row]);
 
     if (itemSelected == 2) {
@@ -87,6 +91,60 @@ function App() {
       }
     }
     setBoxStates(newStates);
+  };
+
+  // Resets just the start and end
+  const resetStartAndEnd = () => {
+    const newStart: [number, number] = [
+      Math.floor(gridRow / 5),
+      Math.floor(gridCol / 5),
+    ];
+    const newEnd: [number, number] = [
+      Math.floor(gridRow / 5) * 4,
+      Math.floor(gridCol / 5) * 4,
+    ];
+
+    const newBoxStates = boxStates;
+    newBoxStates[newStart[0]][newStart[1]] = 2;
+    newBoxStates[newEnd[0]][newEnd[1]] = 3;
+
+    swapStartNodeCoord(newStart[0], newStart[1], newBoxStates);
+    swapEndNodeCoord(newEnd[0], newEnd[1], newBoxStates);
+    setBoxStates(newBoxStates);
+  };
+
+  // Resets everything except for the start ane end
+  const resetWallStates = () => {
+    const newBoxStates = Array.from({ length: gridRow }, () =>
+      Array(gridCol).fill(0)
+    );
+
+    newBoxStates[startNodeCoord[0]][startNodeCoord[1]] = 2;
+    newBoxStates[endNodeCoord[0]][endNodeCoord[1]] = 3;
+
+    setBoxStates(newBoxStates);
+  };
+
+  // Resets everything back to default
+  const resetAll = () => {
+    const newStart: [number, number] = [
+      Math.floor(gridRow / 5),
+      Math.floor(gridCol / 5),
+    ];
+    const newEnd: [number, number] = [
+      Math.floor(gridRow / 5) * 4,
+      Math.floor(gridCol / 5) * 4,
+    ];
+
+    const newBoxStates = Array.from({ length: gridRow }, () =>
+      Array(gridCol).fill(0)
+    );
+    newBoxStates[newStart[0]][newStart[1]] = 2;
+    newBoxStates[newEnd[0]][newEnd[1]] = 3;
+
+    setStartNodeCoord(newStart);
+    setEndNodeCoord(newEnd);
+    setBoxStates(newBoxStates);
   };
 
   // Set the current item being placed, and what mode of placement it is
@@ -120,10 +178,13 @@ function App() {
       <Toolbar
         itemPlacement={currentItemSelected}
         setItemPlacement={handleItemSelect}
+        resetStartEnd={resetStartAndEnd}
+        resetWall={resetWallStates}
+        resetAll={resetAll}
       />
       <Grid
         boxStates={boxStates}
-        togglesStates={toggleBoxStates}
+        togglesStates={handleItemPlacement}
         selectionType={selectionType}
         itemSelected={currentItemSelected}
       />
