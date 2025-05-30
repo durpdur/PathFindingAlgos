@@ -26,6 +26,10 @@ const getBackgroundColor = (itemPlaced : number): string => {
       return "green"; // start
     case 3:
       return "red"; // end
+    case 4:
+      return "orange";
+    case 5:
+      return "yellow";
     default:
       return "grey";
   }

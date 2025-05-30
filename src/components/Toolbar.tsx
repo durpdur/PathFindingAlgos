@@ -20,6 +20,7 @@ interface ToolbarProps {
   resetStartEnd: () => void;
   resetWall: () => void;
   resetAll: () => void;
+  visualizeAlgo: () => void;
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
@@ -28,6 +29,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
   resetStartEnd,
   resetWall,
   resetAll,
+  visualizeAlgo,
 }) => {
   const selectedValue = itemPlacement;
 
@@ -88,6 +90,9 @@ const Toolbar: React.FC<ToolbarProps> = ({
           onClick={resetAll}
         >
           Reset All
+        </div>
+        <div className="visualizeAlgoButton" onClick={visualizeAlgo}>
+          Visualize Algorithm
         </div>
       </div>
     </div>
