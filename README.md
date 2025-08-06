@@ -36,9 +36,6 @@ Argument
 
 ---
 
-# git checkout --orphan gh-pages
-Created a orphan branch with no commit history for prod
-
 ## To update prod
 - npm run build
 - npm run deploy
