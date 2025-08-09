@@ -1,18 +1,5 @@
-/* 
-Toolbar
-- Algorithm Selector (dropdown)
-- Maze Generator (dropdown)
-- Wall Placer (click & drag)
-- Reset Grid
-- Reset Obstacles
-- Start (click)
-- End (click)
-- Speed Adjustment
-- Timeline
-  - e.g. showing steps from __ to __
-
-*/
 import React from "react";
+import { Button, ButtonGroup } from "@mui/material";
 
 interface ToolbarProps {
   itemPlacement: number;
@@ -33,70 +20,48 @@ const Toolbar: React.FC<ToolbarProps> = ({
 }) => {
   const selectedValue = itemPlacement;
 
-  // rendering
+  const toolLabels: Record<number, string> = {
+    1: "Wall",
+    2: "Start",
+    3: "End",
+  };
+
   return (
-    <div
-      className="Toolbar"
-      style={{ display: "", gap: "1px", padding: "8px" }}
-    >
-      <div
-        className="ToolbarItems"
-        style={{ display: "flex", gap: "8px", padding: "8px" }}
-      >
+    <div style={{ padding: "8px" }}>
+      <ButtonGroup variant="outlined" color="primary">
         {Array.from({ length: 10 }, (_, i) => {
           const number = i + 1;
-          const isSelected = selectedValue === number;
-
-          let toolBarLabel = "";
-          switch (number) {
-            case 1:
-              toolBarLabel = "Wall";
-              break;
-            case 2:
-              toolBarLabel = "Start";
-              break;
-            case 3:
-              toolBarLabel = "End";
-              break;
-            default:
-              toolBarLabel = number.toString();
-              break;
-          }
+          const label = toolLabels[number] ?? number.toString();
 
           return (
-            <div
+            <Button
               key={number}
+              variant={selectedValue === number ? "contained" : "outlined"}
               onClick={() => setItemPlacement(number)}
-              className={`toolbar-button ${isSelected ? "selected" : ""}`}
             >
-              {toolBarLabel}
-            </div>
+              {label}
+            </Button>
           );
         })}
-        <div
-          className="ToolbarResetStartEndButton toolbar-button"
-          onClick={resetStartEnd}
-        >
-          Reset Start and End
-        </div>
-        <div
-          className="ToolBarResetWallButton toolbar-button"
-          onClick={resetWall}
-        >
-          Reset Wall
-        </div>
-        <div
-          className="ToolBarResetAllButton toolbar-button"
-          onClick={resetAll}
-        >
-          Reset All
-        </div>
-        <div className="visualizeAlgoButton" onClick={visualizeAlgo}>
-          Visualize Algorithm
-        </div>
-      </div>
+      </ButtonGroup>
+
+      <ButtonGroup variant="outlined" color="secondary" sx={{ ml: 2 }}>
+        <Button onClick={resetStartEnd}>Reset Start & End</Button>
+        <Button onClick={resetWall}>Reset Wall</Button>
+        <Button onClick={resetAll}>Reset All</Button>
+      </ButtonGroup>
+
+      <Button
+        variant="contained"
+        color="success"
+        sx={{ ml: 2 }}
+        onClick={visualizeAlgo}
+      >
+        Visualize Algorithm
+      </Button>
     </div>
   );
 };
 
 export default Toolbar;
+

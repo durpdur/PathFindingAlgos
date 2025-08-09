@@ -6,6 +6,7 @@
 */
 
 import React from "react";
+import "./Node.css";
 
 interface NodeProps {
   coord?: string;
@@ -27,41 +28,52 @@ const getBackgroundColor = (itemPlaced : number): string => {
     case 3:
       return "red"; // end
     case 4:
-      return "orange";
+      return "orange"; // discovered nodes by algorithm
     case 5:
-      return "yellow";
+      return "yellow"; // shortest path visualization
     default:
       return "grey";
+  }
+};
+
+const getAnimation = (itemPlaced: number): string | undefined => {
+  switch (itemPlaced) {
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+      return "bubbleFillIn 0.4s ease forwards";
+    default:
+      return undefined;
   }
 };
 
 const Node: React.FC<NodeProps> = ({ coord, NodeItem, onMouseDown, onMouseEnter }) => {
   // baseStyles
   const baseStyles = {
-    width: "49px",
-    height: "49px",
-    backgroundColor: "pink",
+    width: "99%",
+    height: "99%",
     border: "1px solid grey",
     borderRadius: "2px",
     color: "black",
   };
 
-  // dynamic (add or modify)
+  // dynamicStyles (changes depending on state)
   const dynamicStyles = {
-    ...baseStyles, // copies base styles
-    backgroundColor: getBackgroundColor(NodeItem), // using NodeItem prop
+    ...baseStyles,
+    backgroundColor: getBackgroundColor(NodeItem),
+    animation: getAnimation(NodeItem),
   };
 
   return (
     <div
-      key={coord} // temp key to stop error message 
-      className="node"
+      key={coord}
+      className={`node`}
       style={dynamicStyles}
       onMouseDown={onMouseDown}
       onMouseEnter={onMouseEnter}
-    >
-      {/* {coord} */}
-    </div>
+     />
   );
 };
 

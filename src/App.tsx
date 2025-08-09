@@ -19,13 +19,13 @@ function App() {
   // The item currently selected to be placed in the grid
   const [currentItemSelected, setCurrentItemSelected] = useState<number>(1);
 
-  // One start position
+  // Start position (x, y)
   const [startNodeCoord, setStartNodeCoord] = useState<[number, number]>([
     Math.floor(gridRow / 5),
     Math.floor(gridCol / 5),
   ]);
 
-  // One end position
+  // End position (x, y)
   const [endNodeCoord, setEndNodeCoord] = useState<[number, number]>([
     Math.floor(gridRow / 5) * 4,
     Math.floor(gridCol / 5) * 4,
@@ -53,7 +53,7 @@ function App() {
    FUNCTIONS
   ********************/
 
-  // Swap Start Coordinates
+  // Change Start Coordinates
   const swapStartNodeCoord = (i: number, j: number, newStates: number[][]) => {
     const [currI, currJ] = startNodeCoord;
     newStates[currI][currJ] = 0;
@@ -62,7 +62,7 @@ function App() {
     newStates[i][j] = 2;
   };
 
-  // Swap End Coordinates
+  // Change End Coordinates
   const swapEndNodeCoord = (i: number, j: number, newStates: number[][]) => {
     const [currI, currJ] = endNodeCoord;
     newStates[currI][currJ] = 0;
@@ -111,7 +111,7 @@ function App() {
     setBoxStates(newBoxStates);
   };
 
-  // Resets everything except for the start ane end
+  // Resets everything except for the start and end
   const resetWallStates = () => {
     const newBoxStates = Array.from({ length: gridRow }, () =>
       Array(gridCol).fill(0)
@@ -121,6 +121,11 @@ function App() {
     newBoxStates[endNodeCoord[0]][endNodeCoord[1]] = 3;
 
     setBoxStates(newBoxStates);
+  };
+
+  // Resets everything except Start, End, and Wall
+  const resetPathVisualization = () => {
+    
   };
 
   // Resets everything back to default
@@ -145,6 +150,7 @@ function App() {
     setBoxStates(newBoxStates);
   };
 
+  
   // Set the current item being placed, and what mode of placement it is
   const handleItemSelect = (itemSelected: number) => {
     setCurrentItemSelected(itemSelected);

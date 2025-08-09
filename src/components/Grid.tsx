@@ -58,12 +58,12 @@ const Grid: React.FC<GridProps> = ({
       className="grid"
       style={{
         display: "grid",
-        gridTemplateColumns: "repeat(var(--grid-cols), 50px)",
-        gridTemplateRows: "repeat(var(--grid-rows), 50px)",
-        // overflow: "none", // forgot what this does
+        gridTemplateColumns: `repeat(var(--grid-cols), 1fr)`,
+        gridTemplateRows: `repeat(var(--grid-rows), 1fr)`,
+        aspectRatio: `var(--grid-cols) / var(--grid-rows)`, // keeps squares
+        width: "90vw",  // responsive width
+        maxHeight: "90vh", // don’t overflow vertically
         userSelect: "none",
-        border: "2px",
-        borderRadius: "20px",
       }}
     >
       {boxStates.map((row, i) =>
