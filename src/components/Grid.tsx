@@ -64,6 +64,7 @@ const Grid: React.FC<GridProps> = ({
         width: "90vw",  // responsive width
         maxHeight: "90vh", // don’t overflow vertically
         userSelect: "none",
+        backgroundColor: "white",
       }}
     >
       {boxStates.map((row, i) =>

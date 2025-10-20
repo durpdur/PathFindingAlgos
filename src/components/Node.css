@@ -1,10 +1,34 @@
-@keyframes bubbleFillIn {
+/* 4 = discovered (orange ramp) */
+@keyframes discoveredIn {
   0% {
     transform: scale(0);
-    opacity: 0.0;
+    opacity: 1;
+    background-color: blue; 
+  }
+
+  50% {
+    transform: scale(0.5);
+    opacity: 1;
+    background-color: #b8dcd8; 
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    background-color: #0fa5ff;
+  }
+}
+
+/* 5 = shortest path (yellow ramp) */
+@keyframes shortestPathIn {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+    background-color: #E7B744; /* lighter yellow */
   }
   100% {
     transform: scale(1);
     opacity: 1;
+    background-color: #F1D581;  /* final yellow to match legend */
   }
 }

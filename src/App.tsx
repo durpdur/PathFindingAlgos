@@ -9,7 +9,7 @@ function App() {
   /******************** 
    CONSTANTS 
   ********************/
-  const nodeSize = 50;
+  const nodeSize = 35;
   const gridRow = Math.floor(innerHeight / nodeSize) - 3;
   const gridCol = Math.floor(innerWidth / nodeSize) - 2;
 
@@ -123,11 +123,6 @@ function App() {
     setBoxStates(newBoxStates);
   };
 
-  // Resets everything except Start, End, and Wall
-  const resetPathVisualization = () => {
-    
-  };
-
   // Resets everything back to default
   const resetAll = () => {
     const newStart: [number, number] = [
@@ -150,6 +145,20 @@ function App() {
     setBoxStates(newBoxStates);
   };
 
+  // Resets just the animation squares, essentially restarts visualization
+  const resetAnimation = () => {
+    const newBoxStates = boxStates.map(row => {
+      return row.map(value => {
+        if (value === 4 || value === 5) {
+          return 0;
+        } else {
+          return value;
+        }
+      })
+    });
+
+    setBoxStates(newBoxStates);
+  }
   
   // Set the current item being placed, and what mode of placement it is
   const handleItemSelect = (itemSelected: number) => {
@@ -165,6 +174,8 @@ function App() {
 
   // Visualize algorithm by their visited nodes in order and shortest path found
   const visualizeAlgorithm = () => {
+    resetAnimation();
+
     const { visitedNodesInOrder, shortestPath } = bfs(
       boxStates,
       startNodeCoord,
@@ -242,6 +253,7 @@ function App() {
         resetWall={resetWallStates}
         resetAll={resetAll}
         visualizeAlgo={visualizeAlgorithm}
+        resetAnimation={resetAnimation}
       />
       <Grid
         boxStates={boxStates}

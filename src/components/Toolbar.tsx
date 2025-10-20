@@ -8,6 +8,7 @@ interface ToolbarProps {
   resetWall: () => void;
   resetAll: () => void;
   visualizeAlgo: () => void;
+  resetAnimation: () => void;
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
@@ -17,6 +18,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
   resetWall,
   resetAll,
   visualizeAlgo,
+  resetAnimation,
 }) => {
   const selectedValue = itemPlacement;
 
@@ -49,6 +51,7 @@ const Toolbar: React.FC<ToolbarProps> = ({
         <Button onClick={resetStartEnd}>Reset Start & End</Button>
         <Button onClick={resetWall}>Reset Wall</Button>
         <Button onClick={resetAll}>Reset All</Button>
+        <Button onClick={resetAnimation}>Reset Animation</Button>
       </ButtonGroup>
 
       <Button

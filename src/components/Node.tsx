@@ -42,8 +42,9 @@ const getAnimation = (itemPlaced: number): string | undefined => {
     case 2:
     case 3:
     case 4:
+      return "discoveredIn 0.4s ease forwards"
     case 5:
-      return "bubbleFillIn 0.4s ease forwards";
+      return "shortestPathIn 0.4s ease forwards";
     default:
       return undefined;
   }
@@ -62,9 +63,12 @@ const Node: React.FC<NodeProps> = ({ coord, NodeItem, onMouseDown, onMouseEnter 
   // dynamicStyles (changes depending on state)
   const dynamicStyles = {
     ...baseStyles,
-    backgroundColor: getBackgroundColor(NodeItem),
-    animation: getAnimation(NodeItem),
+    ...(NodeItem === 4 || NodeItem === 5 
+      ? { animation: getAnimation(NodeItem) }
+      : { backgroundColor: getBackgroundColor(NodeItem) }
+    ),
   };
+
 
   return (
     <div
