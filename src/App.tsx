@@ -5,6 +5,7 @@ import { bfs } from "./algorithms/algorithmsAggregator";
 import Grid from "./components/Grid";
 import Toolbar from "./components/Toolbar/Toolbar";
 
+
 function App() {
   /******************** 
    CONSTANTS 
