@@ -6,7 +6,7 @@ Args
 
 import React, { useEffect, useState } from "react";
 
-import Node from "./Node";
+import Node from "./Node/Node";
 
 // Props
 interface GridProps {

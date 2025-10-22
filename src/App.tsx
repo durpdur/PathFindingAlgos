@@ -3,7 +3,7 @@ import "./App.css";
 import { bfs } from "./algorithms/algorithmsAggregator";
 
 import Grid from "./components/Grid";
-import Toolbar from "./components/Toolbar";
+import Toolbar from "./components/Toolbar/Toolbar";
 
 function App() {
   /******************** 
@@ -49,6 +49,9 @@ function App() {
   // Type of selection depending on currentItemSelected
   const [selectionType, setSelectionType] = useState<boolean>(true); // true: click and drag, false: click
 
+  // Type of algorithm selected
+  const [algorithm, setAlgorithm] = useState<string>("BFS");
+
   /******************** 
    FUNCTIONS
   ********************/
@@ -91,23 +94,26 @@ function App() {
     setBoxStates(newStates);
   };
 
-  // Resets just the start and end
+  // Resets start and end
   const resetStartAndEnd = () => {
-    const newStart: [number, number] = [
-      Math.floor(gridRow / 5),
-      Math.floor(gridCol / 5),
-    ];
-    const newEnd: [number, number] = [
-      Math.floor(gridRow / 5) * 4,
-      Math.floor(gridCol / 5) * 4,
-    ];
+    const newStart: [number, number] = [Math.floor(gridRow / 5), Math.floor(gridCol / 5)];
+    const newEnd: [number, number] = [Math.floor(gridRow / 5) * 4, Math.floor(gridCol / 5) * 4];
 
-    const newBoxStates = boxStates;
+    // deep clone
+    const newBoxStates = boxStates.map(row => [...row]);
+
+    // clear old start/end
+    const [oldSRow, oldSCol] = startNodeCoord;
+    const [oldERow, oldECol] = endNodeCoord;
+    newBoxStates[oldSRow][oldSCol] = 0;
+    newBoxStates[oldERow][oldECol] = 0;
+
+    // set new start/end
     newBoxStates[newStart[0]][newStart[1]] = 2;
     newBoxStates[newEnd[0]][newEnd[1]] = 3;
 
-    swapStartNodeCoord(newStart[0], newStart[1], newBoxStates);
-    swapEndNodeCoord(newEnd[0], newEnd[1], newBoxStates);
+    setStartNodeCoord(newStart);
+    setEndNodeCoord(newEnd);
     setBoxStates(newBoxStates);
   };
 
@@ -172,6 +178,10 @@ function App() {
     );
   };
 
+  /******************** 
+   Path visualization
+  ********************/
+
   // Visualize algorithm by their visited nodes in order and shortest path found
   const visualizeAlgorithm = () => {
     resetAnimation();
@@ -184,7 +194,6 @@ function App() {
 
     const newBoxStates = boxStates.map((row) => [...row]);
 
-    // Step 1: Animate visited nodes
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
       setTimeout(() => {
         if (i === visitedNodesInOrder.length) {
@@ -208,7 +217,7 @@ function App() {
     }
   };
 
-  // Step 2: Animate shortest path
+  // Animates shortest path
   const animateShortestPath = (shortestPath: [number, number][]) => {
     for (let i = 0; i < shortestPath.length; i++) {
       setTimeout(() => {
@@ -242,11 +251,19 @@ function App() {
   }, [gridRow, gridCol]);
 
   /******************** 
-   RETURN
+   RETURN    
   ********************/
   return (
-    <div>
+    <div style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center", // vertical centering
+      height: "100vh", // full screen height
+    }}>
       <Toolbar
+        algorithmSelected={algorithm}
+        setAlgorithm={setAlgorithm}
         itemPlacement={currentItemSelected}
         setItemPlacement={handleItemSelect}
         resetStartEnd={resetStartAndEnd}
