@@ -10,13 +10,13 @@
 - currentAlgorithm
 
 ### Toolbar
-- Algorithm Selector
-- Maze Generator
-- Wall Placer
-- Reset Grid
-- Reset Obstacles
-- Start
-- End
+- Algorithm Selector (Done, need to implement algos)
+- Maze Generator 
+- Wall Placer (Done)
+- Reset Grid (Done)
+- Reset Obstacles (Done)
+- Start (Done)
+- End (Done)
 - Speed Adjustment
 - Timeline
   - e.g. showing steps from __ to __
