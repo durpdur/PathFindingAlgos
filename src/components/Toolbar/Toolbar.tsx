@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, ButtonGroup, FormControl, Box, MenuItem, Select, type SelectChangeEvent } from "@mui/material";
+import { Button, ButtonGroup, FormControl, Box, MenuItem, Select } from "@mui/material";
 
 interface ToolbarProps {
   itemPlacement: number;
